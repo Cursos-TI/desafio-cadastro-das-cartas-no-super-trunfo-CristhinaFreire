@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 // Estrutura para armazenar os dados de uma carta
 typedef struct {
@@ -22,7 +21,7 @@ void cadastrarCarta(Carta *carta, int numero) {
     scanf("%s", carta->codigo);
 
     printf("Digite o nome da cidade: ");
-    scanf(" %[^\n]", carta->nome); // Corrigido para ler nome com espaços
+    scanf(" %[^\n]", carta->nome); // Permite ler nome com espaços
 
     printf("Digite a população da cidade: ");
     scanf("%d", &carta->populacao);
@@ -56,10 +55,12 @@ int main() {
     printf("Quantas cartas deseja cadastrar? ");
     scanf("%d", &n);
 
-    // Aloca memória dinamicamente para as cartas
-    Carta *cartas = (Carta*) malloc(n * sizeof(Carta));
-    if (cartas == NULL) {
-        printf("Erro ao alocar memória!\n");
+    // Declara um array estático 
+    Carta cartas[100];
+
+    // Verifica se o número de cartas não excede o limite do array
+    if (n > 100) {
+        printf("Número máximo de cartas permitidas é 100.\n");
         return 1;
     }
 
@@ -73,9 +74,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         exibirCarta(cartas[i], i + 1);
     }
-
-    // Libera a memória alocada
-    free(cartas);
 
     return 0;
 }
