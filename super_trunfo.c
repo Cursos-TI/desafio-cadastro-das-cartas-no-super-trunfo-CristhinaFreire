@@ -14,14 +14,18 @@ typedef struct {
 // Função para cadastrar uma carta
 void cadastrarCarta(Carta *carta, int numero) {
     printf("\n--- Cadastro da Carta %d ---\n", numero);
+    
     printf("Digite a letra do estado (A-H): ");
     scanf(" %c", &carta->estado);
+    while(getchar() != '\n'); // Limpa buffer
 
     printf("Digite o código da carta (ex: A01): ");
-    scanf("%s", carta->codigo);
+    scanf("%3s", carta->codigo);
+    while(getchar() != '\n'); // Limpa buffer
 
     printf("Digite o nome da cidade: ");
-    scanf(" %[^\n]", carta->nome); // Permite ler nome com espaços
+    fgets(carta->nome, 50, stdin);
+    carta->nome[strcspn(carta->nome, "\n")] = 0; // Remove o '\n' final
 
     printf("Digite a população da cidade: ");
     scanf("%d", &carta->populacao);
@@ -49,22 +53,12 @@ void exibirCarta(Carta carta, int numero) {
 }
 
 int main() {
-    int n;
+    const int n = 2; // Define um limite fixo de 2 cartas
     
-    // Solicita a quantidade de cartas que o usuário deseja cadastrar
-    printf("Quantas cartas deseja cadastrar? ");
-    scanf("%d", &n);
+    // Declara um array estático para armazenar as cartas
+    Carta cartas[n];
 
-    // Declara um array estático 
-    Carta cartas[100];
-
-    // Verifica se o número de cartas não excede o limite do array
-    if (n > 100) {
-        printf("Número máximo de cartas permitidas é 100.\n");
-        return 1;
-    }
-
-    // Cadastro das cartas
+    // Cadastro das 2 cartas
     for (int i = 0; i < n; i++) {
         cadastrarCarta(&cartas[i], i + 1);
     }
